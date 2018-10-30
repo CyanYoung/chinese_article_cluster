@@ -35,7 +35,6 @@ def prepare(path_univ_dir, path_train, path_test):
     files = os.listdir(path_univ_dir)
     for file in files:
         label = os.path.splitext(file)[0]
-        print(label)
         with open(os.path.join(path_univ_dir, file), 'r') as f:
             for line in f:
                 words = filter(line.strip())
