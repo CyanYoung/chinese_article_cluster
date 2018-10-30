@@ -10,7 +10,7 @@ from gensim.corpora.dictionary import Dictionary
 from util import flat_read, map_item
 
 
-topic_num = 15
+topic_num = 3
 key_num = 20
 
 path_word2ind = 'model/word2ind.pkl'

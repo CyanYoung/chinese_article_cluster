@@ -4,8 +4,10 @@ import numpy as np
 
 from sklearn.cluster import KMeans
 
+from util import map_item
 
-topic_num = 15
+
+topic_num = 3
 
 path_lsi = 'model/lsi.pkl'
 path_lda = 'model/lda.pkl'
@@ -17,15 +19,22 @@ with open(path_lda, 'rb') as f:
 feats = {'lsi': lsi,
          'lda': lda}
 
+paths = {'mean_lsi': 'model/mean_lsi.pkl',
+         'mean_lda': 'model/mean_lda.pkl'}
+
 
 def fit(path):
     with open(path, 'rb') as f:
         tfidf_docs = pk.load(f)
-    model = KMeans(n_clusters=topic_num, n_init=10, max_iter=100)
     for name, feat in feats.items():
-        doc_topics = np.array(feat[tfidf_docs])
-        model.fit(doc_topics)
-        print(model.labels_)
+        topic_docs = list()
+        for doc in feat[tfidf_docs]:
+            topic_docs.append([score for ind, score in doc])
+        topic_docs = np.array(topic_docs)
+        model = KMeans(n_clusters=topic_num, n_init=10, max_iter=100)
+        model.fit(topic_docs)
+        with open(map_item('mean_' + name, paths), 'wb') as f:
+            pk.dump(model, f)
 
 
 if __name__ == '__main__':
