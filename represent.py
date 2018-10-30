@@ -15,7 +15,6 @@ key_num = 20
 
 path_word2ind = 'model/word2ind.pkl'
 path_tfidf = 'model/tfidf.pkl'
-path_tfidf_feat = 'feat/tfidf.pkl'
 
 funcs = {'lsi': Lsi,
          'lda': Lda}
@@ -39,27 +38,43 @@ def save_dict(name, topics):
         json.dump(topic_pairs, f, ensure_ascii=False, indent=4)
 
 
-def featurize(path_train):
-    docs = flat_read(path_train, 'doc')
+def vectorize(doc_words, mode):
+    if mode == 'train':
+        word2ind = Dictionary(doc_words)
+        bow_docs = [word2ind.doc2bow(words) for words in doc_words]
+        tfidf = Tfidf(bow_docs)
+        with open(path_word2ind, 'wb') as f:
+            pk.dump(word2ind, f)
+        with open(path_tfidf, 'wb') as f:
+            pk.dump(tfidf, f)
+    else:
+        with open(path_word2ind, 'rb') as f:
+            word2ind = pk.load(f)
+        with open(path_tfidf, 'rb') as f:
+            tfidf = pk.load(f)
+        bow_docs = [word2ind.doc2bow(words) for words in doc_words]
+    return word2ind, tfidf[bow_docs]
+
+
+def featurize(path_data, path_feat, mode):
+    docs = flat_read(path_data, 'doc')
     doc_words = [doc.split() for doc in docs]
-    word2ind = Dictionary(doc_words)
-    bow_docs = [word2ind.doc2bow(words) for words in doc_words]
-    tfidf = Tfidf(bow_docs)
-    tfidf_docs = tfidf[bow_docs]
-    with open(path_word2ind, 'wb') as f:
-        pk.dump(word2ind, f)
-    with open(path_tfidf, 'wb') as f:
-        pk.dump(tfidf, f)
-    with open(path_tfidf_feat, 'wb') as f:
+    word2ind, tfidf_docs = vectorize(doc_words, mode)
+    with open(path_feat, 'wb') as f:
         pk.dump(tfidf_docs, f)
     for name, func in funcs.items():
         model = func(tfidf_docs, id2word=word2ind, num_topics=topic_num)
         topics = model.show_topics(num_words=key_num)
         with open(map_item(name, paths), 'wb') as f:
             pk.dump(model, f)
-        save_dict(name, topics)
+        if mode == 'train':
+            save_dict(name, topics)
 
 
 if __name__ == '__main__':
-    path_train = 'data/train.csv'
-    featurize(path_train)
+    path_data = 'data/train.csv'
+    path_feat = 'feat/tfidf_train.pkl'
+    featurize(path_data, path_feat, mode='train')
+    path_data = 'data/test.csv'
+    path_feat = 'feat/tfidf_test.pkl'
+    featurize(path_data, path_feat, mode='test')
