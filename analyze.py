@@ -19,17 +19,17 @@ with open(path_lsi, 'rb') as f:
 with open(path_lda, 'rb') as f:
     lda = pk.load(f)
 
-models = {'lsi': lsi,
-          'lda': lda}
+feats = {'lsi': lsi,
+         'lda': lda}
 
 
 def predict(text, name):
     words = filter(text.strip())
     bow_doc = word2ind.doc2bow(words)
     tfidf_doc = tfidf[bow_doc]
-    model = map_item(name, models)
+    feat = map_item(name, feats)
     topic_str = ''
-    for ind, score in model[tfidf_doc]:
+    for ind, score in feat[tfidf_doc]:
         topic_str = topic_str + '({}, {:.3f}) '.format(ind, score)
     return topic_str
 
