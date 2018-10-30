@@ -38,7 +38,9 @@ def save_dict(name, topics):
         json.dump(topic_pairs, f, ensure_ascii=False, indent=4)
 
 
-def vectorize(doc_words, mode):
+def vectorize(path_data, path_feat, mode):
+    docs = flat_read(path_data, 'doc')
+    doc_words = [doc.split() for doc in docs]
     if mode == 'train':
         word2ind = Dictionary(doc_words)
         bow_docs = [word2ind.doc2bow(words) for words in doc_words]
@@ -53,13 +55,7 @@ def vectorize(doc_words, mode):
         with open(path_tfidf, 'rb') as f:
             tfidf = pk.load(f)
         bow_docs = [word2ind.doc2bow(words) for words in doc_words]
-    return word2ind, tfidf[bow_docs]
-
-
-def featurize(path_data, path_feat, mode):
-    docs = flat_read(path_data, 'doc')
-    doc_words = [doc.split() for doc in docs]
-    word2ind, tfidf_docs = vectorize(doc_words, mode)
+    tfidf_docs = tfidf[bow_docs]
     with open(path_feat, 'wb') as f:
         pk.dump(tfidf_docs, f)
     for name, func in funcs.items():
@@ -74,7 +70,7 @@ def featurize(path_data, path_feat, mode):
 if __name__ == '__main__':
     path_data = 'data/train.csv'
     path_feat = 'feat/tfidf_train.pkl'
-    featurize(path_data, path_feat, mode='train')
+    vectorize(path_data, path_feat, mode='train')
     path_data = 'data/test.csv'
     path_feat = 'feat/tfidf_test.pkl'
-    featurize(path_data, path_feat, mode='test')
+    vectorize(path_data, path_feat, mode='test')
