@@ -28,10 +28,10 @@ def predict(text, name):
     bow_doc = word2ind.doc2bow(words)
     tfidf_doc = tfidf[bow_doc]
     feat = map_item(name, feats)
-    topic_str = ''
+    formats = list()
     for ind, score in feat[tfidf_doc]:
-        topic_str = topic_str + '({}, {:.3f}) '.format(ind, score)
-    return topic_str
+        formats.append('({}, {:.3f})'.format(ind, score))
+    return ' '.join(formats)
 
 
 if __name__ == '__main__':
