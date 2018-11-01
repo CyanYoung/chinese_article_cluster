@@ -23,10 +23,20 @@ paths = {'mean_lsi': 'model/mean_lsi.pkl',
          'mean_lda': 'model/mean_lda.pkl'}
 
 
+def pad(doc):
+    pad_doc = np.zeros(topic_num)
+    for ind, score in doc:
+        pad_doc[ind] = score
+    return pad_doc
+
+
 def featurize(tfidf_docs, feat):
     topic_docs = list()
     for doc in feat[tfidf_docs]:
-        topic_docs.append([score for ind, score in doc])
+        if len(doc) == topic_num:
+            topic_docs.append([score for ind, score in doc])
+        else:
+            topic_docs.append(pad(doc))
     return np.array(topic_docs)
 
 

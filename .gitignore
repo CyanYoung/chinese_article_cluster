@@ -11,3 +11,4 @@ __pycache__
 # exceed
 univ
 train.csv
+tfidf_train.pkl
