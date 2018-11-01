@@ -7,7 +7,7 @@ from sklearn.cluster import KMeans
 from util import map_item
 
 
-topic_num = 3
+topic_num = 15
 
 path_lsi = 'model/lsi.pkl'
 path_lda = 'model/lda.pkl'

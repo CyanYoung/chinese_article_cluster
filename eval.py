@@ -7,7 +7,7 @@ from build import featurize
 from util import flat_read, map_item
 
 
-topic_num = 3
+topic_num = 15
 
 path_test = 'data/test.csv'
 path_vec = 'feat/tfidf_test.pkl'
