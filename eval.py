@@ -45,16 +45,16 @@ def label2ind(labels):
 
 
 def test(tfidf_docs, labels):
-    labels = label2ind(labels)
+    inds = label2ind(labels)
     for name, model in models.items():
         feat = map_item(name, feats)
         topic_docs = featurize(tfidf_docs, feat)
         preds = model.predict(topic_docs)
         accs = list()
         for i in range(topic_num):
-            pred_inds = np.where(preds == i)
-            match_labels = labels[pred_inds]
-            counts = np.bincount(match_labels)
+            pred_args = np.where(preds == i)
+            match_inds = inds[pred_args]
+            counts = np.bincount(match_inds)
             accs.append(np.max(counts) / np.sum(counts))
         print('\n%s %s %.2f' % (name, 'acc:', sum(accs) / len(accs)))
 
