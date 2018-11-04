@@ -59,17 +59,17 @@ def test(tfidf_docs, labels):
         topic_docs = featurize(tfidf_docs, feat)
         preds = model.predict(topic_docs)
         max_labels = list()
-        accs = list()
+        rates = list()
         for i in range(topic_num):
             pred_args = np.where(preds == i)
             match_inds = inds[pred_args]
             counts = np.bincount(match_inds)
             max_labels.append(ind_labels[np.argmax(counts)])
-            accs.append(max(counts) / sum(counts))
-        print('\n%s %s %.2f\n' % (name, 'acc:', sum(accs) / len(accs)))
+            rates.append(max(counts) / sum(counts))
+        print('\n%s %s %.2f\n' % (name, 'acc:', sum(rates) / len(rates)))
         formats = list()
-        for label, acc in zip(max_labels, accs):
-            formats.append('{} {:.2f}'.format(label, acc))
+        for label, rate in zip(max_labels, rates):
+            formats.append('{} {:.2f}'.format(label, rate))
         print(', '.join(formats))
 
 
