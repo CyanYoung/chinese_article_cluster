@@ -36,27 +36,41 @@ models = {'lsi': mean_lsi,
 
 
 def label2ind(labels):
-    label_set = sorted(list(set(labels)))
+    labels = sorted(list(set(labels)))
     label_inds = dict()
-    for i in range(len(label_set)):
-        label_inds[label_set[i]] = i
-    inds = [label_inds[label] for label in labels]
-    return np.array(inds)
+    for i in range(len(labels)):
+        label_inds[labels[i]] = i
+    return label_inds
+
+
+def ind2label(label_inds):
+    ind_labels = dict()
+    for label, ind in label_inds.items():
+        ind_labels[ind] = label
+    return ind_labels
 
 
 def test(tfidf_docs, labels):
-    inds = label2ind(labels)
+    label_inds = label2ind(labels)
+    inds = np.array([label_inds[label] for label in labels])
+    ind_labels = ind2label(label_inds)
     for name, model in models.items():
         feat = map_item(name, feats)
         topic_docs = featurize(tfidf_docs, feat)
         preds = model.predict(topic_docs)
+        max_labels = list()
         accs = list()
         for i in range(topic_num):
             pred_args = np.where(preds == i)
             match_inds = inds[pred_args]
             counts = np.bincount(match_inds)
-            accs.append(np.max(counts) / np.sum(counts))
-        print('\n%s %s %.2f' % (name, 'acc:', sum(accs) / len(accs)))
+            max_labels.append(ind_labels[np.argmax(counts)])
+            accs.append(max(counts) / sum(counts))
+        print('\n%s %s %.2f\n' % (name, 'acc:', sum(accs) / len(accs)))
+        formats = list()
+        for label, acc in zip(max_labels, accs):
+            formats.append('{} {:.2f}'.format(label, acc))
+        print(', '.join(formats))
 
 
 if __name__ == '__main__':
