@@ -18,13 +18,12 @@ Dictionary() 建立 word2ind，doc2bow() 得到文档的词频特征
 
 #### 4.analyze
 
-
+predict() 词性过滤、输出文档的主题分布，lsi 为定长、lda 为变长
 
 #### 5.build
 
-featurize() 将文档的词权特征转换为主题分布，通过 KMeans() 构建聚类模型
-
-
+featurize() 得到主题分布、pad() 填充 lda，通过 KMeans() 构建聚类模型
 
 #### 6.eval
 
+计算各主题中最多类别的比例、求平均作为整体的准确率
