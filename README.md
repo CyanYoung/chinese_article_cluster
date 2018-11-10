@@ -4,7 +4,7 @@
 
 prepare() 将按类文件保存的数据汇总，jieba.load_userdict() 导入非切分词
 
-filter() 通过 pos_set 进行词性过滤，打乱后划分为训练、测试数据
+filter() 通过 pos_set 进行词性过滤，打乱后划分训练、测试集
 
 #### 2.explore
 
