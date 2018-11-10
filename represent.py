@@ -5,7 +5,7 @@ from gensim.models import TfidfModel as Tfidf
 from gensim.models import LsiModel as Lsi
 from gensim.models import LdaModel as Lda
 
-from gensim.corpora.dictionary import Dictionary
+from gensim.corpora import Dictionary
 
 from util import flat_read, map_item
 
