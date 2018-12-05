@@ -19,8 +19,8 @@ with open(path_lda, 'rb') as f:
 feats = {'lsi': lsi,
          'lda': lda}
 
-paths = {'mean_lsi': 'model/mean_lsi.pkl',
-         'mean_lda': 'model/mean_lda.pkl'}
+paths = {'km_lsi': 'model/km_lsi.pkl',
+         'km_lda': 'model/km_lda.pkl'}
 
 
 def pad(doc):
@@ -47,7 +47,7 @@ def fit(path):
         topic_docs = featurize(tfidf_docs, feat)
         model = KMeans(n_clusters=topic_num, n_init=10, max_iter=100)
         model.fit(topic_docs)
-        with open(map_item('mean_' + name, paths), 'wb') as f:
+        with open(map_item('km_' + name, paths), 'wb') as f:
             pk.dump(model, f)
 
 

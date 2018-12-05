@@ -17,22 +17,22 @@ with open(path_vec, 'rb') as f:
 
 path_lsi = 'model/lsi.pkl'
 path_lda = 'model/lda.pkl'
-path_mean_lsi = 'model/mean_lsi.pkl'
-path_mean_lda = 'model/mean_lda.pkl'
+path_km_lsi = 'model/km_lsi.pkl'
+path_km_lda = 'model/km_lda.pkl'
 with open(path_lsi, 'rb') as f:
     lsi = pk.load(f)
 with open(path_lda, 'rb') as f:
     lda = pk.load(f)
-with open(path_mean_lsi, 'rb') as f:
-    mean_lsi = pk.load(f)
-with open(path_mean_lda, 'rb') as f:
-    mean_lda = pk.load(f)
+with open(path_km_lsi, 'rb') as f:
+    km_lsi = pk.load(f)
+with open(path_km_lda, 'rb') as f:
+    km_lda = pk.load(f)
 
 feats = {'lsi': lsi,
          'lda': lda}
 
-models = {'lsi': mean_lsi,
-          'lda': mean_lda}
+models = {'lsi': km_lsi,
+          'lda': km_lda}
 
 
 def label2ind(labels):
