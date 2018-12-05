@@ -52,5 +52,5 @@ def fit(path):
 
 
 if __name__ == '__main__':
-    path = 'feat/tfidf.pkl'
-    fit(path)
+    path_train = 'feat/tfidf_train.pkl'
+    fit(path_train)
