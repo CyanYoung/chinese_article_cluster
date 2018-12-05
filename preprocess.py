@@ -6,6 +6,8 @@ from jieba.posseg import cut as pos_cut
 from random import shuffle
 
 
+max_num = int(1e5)
+
 path_cut_word = 'dict/cut_word.txt'
 jieba.load_userdict(path_cut_word)
 
@@ -26,7 +28,7 @@ def filter(text):
     for word, pos in pairs:
         if pos in pos_set:
             words.append(word)
-    return words
+    return ' '.join(words)
 
 
 def prepare(path_univ_dir, path_train, path_test):
@@ -37,16 +39,19 @@ def prepare(path_univ_dir, path_train, path_test):
         label = os.path.splitext(file)[0]
         with open(os.path.join(path_univ_dir, file), 'r') as f:
             for line in f:
-                words = filter(line.strip())
-                cut_doc = ' '.join(words)
-                docs.append(cut_doc)
+                docs.append(line.strip())
                 labels.append(label)
     docs_labels = list(zip(docs, labels))
     shuffle(docs_labels)
     docs, labels = zip(*docs_labels)
+    total = min(max_num, len(docs))
+    docs, labels = docs[:total], labels[:total]
+    cut_docs = list()
+    for doc in docs:
+        cut_docs.append(filter(doc))
     bound = int(len(docs) * 0.9)
-    save(path_train, docs[:bound], labels[:bound])
-    save(path_test, docs[bound:], labels[bound:])
+    save(path_train, cut_docs[:bound], labels[:bound])
+    save(path_test, cut_docs[bound:], labels[bound:])
 
 
 if __name__ == '__main__':
