@@ -31,8 +31,8 @@ with open(path_km_lda, 'rb') as f:
 feats = {'lsi': lsi,
          'lda': lda}
 
-models = {'lsi': km_lsi,
-          'lda': km_lda}
+models = {'km_lsi': km_lsi,
+          'km_lda': km_lda}
 
 
 def label2ind(labels):
@@ -54,8 +54,8 @@ def test(tfidf_docs, labels):
     label_inds = label2ind(labels)
     inds = np.array([label_inds[label] for label in labels])
     ind_labels = ind2label(label_inds)
-    for name, model in models.items():
-        feat = map_item(name, feats)
+    for name, feat in feats.items():
+        model = map_item('km_' + name, models)
         topic_docs = featurize(tfidf_docs, feat)
         preds = model.predict(topic_docs)
         max_labels = list()
