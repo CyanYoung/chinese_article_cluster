@@ -1,3 +1,4 @@
+import json
 import pickle as pk
 
 import numpy as np
@@ -7,7 +8,11 @@ from sklearn.cluster import KMeans
 from util import map_item
 
 
-topic_num = 15
+path_topic = 'data/topic.json'
+with open(path_topic, 'w') as f:
+    topics = json.load(f)
+
+topic_num = len(topics)
 
 path_lsi = 'model/lsi.pkl'
 path_lda = 'model/lda.pkl'

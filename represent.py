@@ -10,8 +10,13 @@ from gensim.corpora import Dictionary
 from util import flat_read, map_item
 
 
-topic_num = 15
 key_num = 20
+
+path_topic = 'data/topic.json'
+with open(path_topic, 'w') as f:
+    topics = json.load(f)
+
+topic_num = len(topics)
 
 path_word2ind = 'model/word2ind.pkl'
 path_tfidf = 'model/tfidf.pkl'
