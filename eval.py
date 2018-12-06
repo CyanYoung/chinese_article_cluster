@@ -9,15 +9,15 @@ from util import flat_read, map_item
 
 
 path_topic = 'data/topic.json'
-with open(path_topic, 'w') as f:
+with open(path_topic, 'r') as f:
     topics = json.load(f)
 
 topic_num = len(topics)
 
-path_test = 'data/test.csv'
-path_vec = 'feat/tfidf_test.pkl'
-labels = flat_read(path_test, 'label')
-with open(path_vec, 'rb') as f:
+path_data = 'data/test.csv'
+path_test = 'feat/tfidf_test.pkl'
+labels = flat_read(path_data, 'label')
+with open(path_test, 'rb') as f:
     tfidf_docs = pk.load(f)
 
 path_lsi = 'model/lsi.pkl'

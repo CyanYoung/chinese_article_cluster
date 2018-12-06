@@ -30,7 +30,7 @@ def filter(text):
     for word, pos in pairs:
         if pos in pos_set:
             words.append(word)
-    return ' '.join(words)
+    return words
 
 
 def prepare(path_univ_dir, path_train, path_test, path_topic):
@@ -50,7 +50,8 @@ def prepare(path_univ_dir, path_train, path_test, path_topic):
     docs, labels = docs[:total], labels[:total]
     cut_docs = list()
     for doc in docs:
-        cut_docs.append(filter(doc))
+        words = filter(doc)
+        cut_docs.append(' '.join(words))
     bound = int(len(docs) * 0.9)
     save(path_train, cut_docs[:bound], labels[:bound])
     save(path_test, cut_docs[bound:], labels[bound:])

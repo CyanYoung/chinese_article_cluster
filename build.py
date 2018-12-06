@@ -9,8 +9,11 @@ from util import map_item
 
 
 path_topic = 'data/topic.json'
-with open(path_topic, 'w') as f:
+path_train = 'feat/tfidf_train.pkl'
+with open(path_topic, 'r') as f:
     topics = json.load(f)
+with open(path_train, 'rb') as f:
+    tfidf_docs = pk.load(f)
 
 topic_num = len(topics)
 
@@ -45,9 +48,7 @@ def featurize(tfidf_docs, feat):
     return np.array(topic_docs)
 
 
-def fit(path):
-    with open(path, 'rb') as f:
-        tfidf_docs = pk.load(f)
+def fit(tfidf_docs):
     for name, feat in feats.items():
         topic_docs = featurize(tfidf_docs, feat)
         model = KMeans(n_clusters=topic_num, n_init=10, max_iter=100)
@@ -57,5 +58,4 @@ def fit(path):
 
 
 if __name__ == '__main__':
-    path_train = 'feat/tfidf_train.pkl'
-    fit(path_train)
+    fit(tfidf_docs)

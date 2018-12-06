@@ -13,7 +13,7 @@ from util import flat_read, map_item
 key_num = 20
 
 path_topic = 'data/topic.json'
-with open(path_topic, 'w') as f:
+with open(path_topic, 'r') as f:
     topics = json.load(f)
 
 topic_num = len(topics)
