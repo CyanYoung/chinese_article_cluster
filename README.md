@@ -20,7 +20,7 @@ Dictionary() 建立 word2ind，doc2bow() 得到文档的词频特征
 
 predict() 词性过滤、输出文档的主题分布，lsi 为定长、lda 为变长
 
-#### 5.build
+#### 5.cluster
 
 featurize() 得到主题分布、pad() 填充 lda，通过 KMeans() 构建聚类模型
 
