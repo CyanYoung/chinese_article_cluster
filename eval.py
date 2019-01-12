@@ -3,7 +3,7 @@ import pickle as pk
 
 import numpy as np
 
-from build import featurize
+from cluster import featurize
 
 from util import flat_read, map_item
 
