@@ -17,7 +17,7 @@ pos_set = ('a', 'ad', 'an', 'd', 'n', 'nr', 'ns', 'nt', 'nz', 'v', 'vd', 'vn')
 
 
 def save(path, docs, labels):
-    head = 'label,doc'
+    head = 'label,cut_doc'
     with open(path, 'w') as f:
         f.write(head + '\n')
         for label, doc in zip(labels, docs):
