@@ -15,7 +15,7 @@ with open(path_topic, 'r') as f:
 topic_num = len(topics)
 
 path_data = 'data/test.csv'
-path_test = 'feat/tfidf_test.pkl'
+path_test = 'feat/sent_test.pkl'
 labels = flat_read(path_data, 'label')
 with open(path_test, 'rb') as f:
     tfidf_docs = pk.load(f)

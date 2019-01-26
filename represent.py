@@ -74,8 +74,8 @@ def vectorize(path_data, path_vec, mode):
 
 if __name__ == '__main__':
     path_data = 'data/train.csv'
-    path_vec = 'feat/tfidf_train.pkl'
+    path_vec = 'feat/sent_train.pkl'
     vectorize(path_data, path_vec, mode='train')
     path_data = 'data/test.csv'
-    path_vec = 'feat/tfidf_test.pkl'
+    path_vec = 'feat/sent_test.pkl'
     vectorize(path_data, path_vec, mode='test')
