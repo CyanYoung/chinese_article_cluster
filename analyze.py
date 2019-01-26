@@ -23,8 +23,8 @@ feats = {'lsi': lsi,
          'lda': lda}
 
 
-def predict(doc, name):
-    words = filter(doc.strip())
+def predict(text, name):
+    words = filter(text.strip())
     bow_doc = word2ind.doc2bow(words)
     tfidf_doc = tfidf[bow_doc]
     feat = map_item(name, feats)
@@ -36,6 +36,6 @@ def predict(doc, name):
 
 if __name__ == '__main__':
     while True:
-        doc = input('doc: ')
-        print('lsi: %s' % predict(doc, 'lsi'))
-        print('lda: %s' % predict(doc, 'lda'))
+        text = input('text: ')
+        print('lsi: %s' % predict(text, 'lsi'))
+        print('lda: %s' % predict(text, 'lda'))
