@@ -24,7 +24,7 @@ def save(path, docs, labels):
             f.write(label + ',' + doc + '\n')
 
 
-def filter(text):
+def clean(text):
     pairs = list(pos_cut(text))
     words = list()
     for word, pos in pairs:
@@ -50,7 +50,7 @@ def prepare(path_univ_dir, path_train, path_test, path_topic):
     docs, labels = docs[:total], labels[:total]
     cut_docs = list()
     for doc in docs:
-        words = filter(doc)
+        words = clean(doc)
         cut_docs.append(' '.join(words))
     bound = int(len(docs) * 0.9)
     save(path_train, cut_docs[:bound], labels[:bound])

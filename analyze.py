@@ -1,6 +1,6 @@
 import pickle as pk
 
-from preprocess import filter
+from preprocess import clean
 
 from util import map_item
 
@@ -24,7 +24,7 @@ feats = {'lsi': lsi,
 
 
 def predict(text, name):
-    words = filter(text.strip())
+    words = clean(text.strip())
     bow_doc = word2ind.doc2bow(words)
     tfidf_doc = tfidf[bow_doc]
     feat = map_item(name, feats)
