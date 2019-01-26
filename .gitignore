@@ -11,4 +11,4 @@ __pycache__
 # exceed
 univ
 train.csv
-tfidf_train.pkl
+sent_train.pkl
