@@ -12,7 +12,7 @@ path_tfidf = 'model/tfidf.pkl'
 
 
 def featurize(path_data, path_sent, mode):
-    docs = flat_read(path_data, 'doc')
+    docs = flat_read(path_data, 'cut_doc')
     doc_words = [doc.split() for doc in docs]
     if mode == 'train':
         word2ind = Dictionary(doc_words)
