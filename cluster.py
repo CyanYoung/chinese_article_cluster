@@ -3,16 +3,23 @@ import pickle as pk
 
 import numpy as np
 
-from sklearn.cluster import KMeans
+from preprocess import clean
 
 from util import map_item
 
 
-path_topic = 'data/topic.json'
-with open(path_topic, 'r') as f:
-    topics = json.load(f)
+path_label = 'data/label.json'
+with open(path_label, 'r') as f:
+    labels = json.load(f)
 
-topic_num = len(topics)
+topic_num = len(labels)
+
+path_word2ind = 'model/word2ind.pkl'
+path_tfidf = 'model/tfidf.pkl'
+with open(path_word2ind, 'rb') as f:
+    word2ind = pk.load(f)
+with open(path_tfidf, 'rb') as f:
+    tfidf = pk.load(f)
 
 path_lsi = 'model/lsi.pkl'
 path_lda = 'model/lda.pkl'
@@ -21,41 +28,27 @@ with open(path_lsi, 'rb') as f:
 with open(path_lda, 'rb') as f:
     lda = pk.load(f)
 
-feats = {'lsi': lsi,
-         'lda': lda}
-
-paths = {'km_lsi': 'model/km_lsi.pkl',
-         'km_lda': 'model/km_lda.pkl'}
+models = {'lsi': lsi,
+          'lda': lda}
 
 
-def pad(doc):
-    pad_doc = np.zeros(topic_num)
-    for ind, score in doc:
-        pad_doc[ind] = score
-    return pad_doc
-
-
-def featurize(tfidf_docs, feat):
-    topic_docs = list()
-    for doc in feat[tfidf_docs]:
-        if len(doc) == topic_num:
-            topic_docs.append([score for ind, score in doc])
-        else:
-            topic_docs.append(pad(doc))
-    return np.array(topic_docs)
-
-
-def fit(path_train):
-    with open(path_train, 'rb') as f:
-        tfidf_docs = pk.load(f)
-    for name, feat in feats.items():
-        topic_docs = featurize(tfidf_docs, feat)
-        model = KMeans(n_clusters=topic_num, n_init=10, max_iter=100)
-        model.fit(topic_docs)
-        with open(map_item('km_' + name, paths), 'wb') as f:
-            pk.dump(model, f)
+def predict(text, name):
+    words = clean(text.strip())
+    bow_doc = word2ind.doc2bow(words)
+    tfidf_doc = tfidf[bow_doc]
+    model = map_item(name, models)
+    pairs = model[tfidf_doc]
+    probs = np.zeros(topic_num)
+    for ind, score in pairs:
+        probs[ind] = score
+    formats = list()
+    for prob in probs:
+        formats.append('{:.3f}'.format(prob))
+    return ', '.join(formats)
 
 
 if __name__ == '__main__':
-    path_train = 'feat/sent_train.pkl'
-    fit(path_train)
+    while True:
+        text = input('text: ')
+        print('lsi: %s' % predict(text, 'lsi'))
+        print('lda: %s' % predict(text, 'lda'))
