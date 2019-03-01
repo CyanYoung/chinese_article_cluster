@@ -10,13 +10,14 @@ from util import map_item
 key_num = 20
 
 path_label = 'data/label.json'
-path_word2ind = 'model/word2ind.pkl'
 with open(path_label, 'r') as f:
     labels = json.load(f)
-with open(path_word2ind, 'rb') as f:
-    word2ind = pk.load(f)
 
 topic_num = len(labels)
+
+path_word2ind = 'model/word2ind.pkl'
+with open(path_word2ind, 'rb') as f:
+    word2ind = pk.load(f)
 
 funcs = {'lsi': Lsi,
          'lda': Lda}
