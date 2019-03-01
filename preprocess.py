@@ -33,16 +33,16 @@ def clean(text):
     return words
 
 
-def prepare(path_univ_dir, path_train, path_test, path_topic):
-    docs, labels, topics = list(), list(), list()
+def prepare(path_univ_dir, path_train, path_test, path_label):
+    docs, labels, labels = list(), list(), list()
     files = os.listdir(path_univ_dir)
     for file in files:
-        topic = os.path.splitext(file)[0]
-        topics.append(topic)
+        label = os.path.splitext(file)[0]
+        labels.append(label)
         with open(os.path.join(path_univ_dir, file), 'r') as f:
             for line in f:
                 docs.append(line.strip())
-                labels.append(topic)
+                labels.append(label)
     docs_labels = list(zip(docs, labels))
     shuffle(docs_labels)
     docs, labels = zip(*docs_labels)
@@ -55,13 +55,13 @@ def prepare(path_univ_dir, path_train, path_test, path_topic):
     bound = int(len(docs) * 0.9)
     save(path_train, cut_docs[:bound], labels[:bound])
     save(path_test, cut_docs[bound:], labels[bound:])
-    with open(path_topic, 'w') as f:
-        json.dump(topics, f, ensure_ascii=False, indent=4)
+    with open(path_label, 'w') as f:
+        json.dump(labels, f, ensure_ascii=False, indent=4)
 
 
 if __name__ == '__main__':
     path_univ_dir = 'data/univ'
     path_train = 'data/train.csv'
     path_test = 'data/test.csv'
-    path_topic = 'data/topic.json'
-    prepare(path_univ_dir, path_train, path_test, path_topic)
+    path_label = 'data/label.json'
+    prepare(path_univ_dir, path_train, path_test, path_label)
