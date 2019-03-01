@@ -63,5 +63,5 @@ if __name__ == '__main__':
     path_univ_dir = 'data/univ'
     path_train = 'data/train.csv'
     path_test = 'data/test.csv'
-    path_topic = 'feat/topic.json'
+    path_topic = 'data/topic.json'
     prepare(path_univ_dir, path_train, path_test, path_topic)
