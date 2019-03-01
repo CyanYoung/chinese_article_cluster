@@ -2,20 +2,16 @@
 
 #### 1.preprocess
 
-prepare() 将按类文件保存的数据汇总，jieba.load_userdict() 导入非切分词
-
-filter() 通过 pos_set 进行词性过滤，打乱后划分训练、测试集
+prepare() 将按类文件保存的数据汇总，clean() 通过 pos_set 进行词性过滤
 
 #### 2.represent
 
-Dictionary() 建立 word2ind，doc2bow() 得到文档的词频特征
+Dictionary() 建立 word2ind，doc2bow() 得到词频特征、转换为 tfidf 词权特征
 
-再转换为 tfidf 词权特征，分别通过 lsi、lda 构建主题模型、保存关键词
+#### 3.build
 
-#### 3.analyze
-
-predict() 词性过滤、输出文档的主题分布，lsi 为定长、lda 为变长
+通过 lsi、lda 构建主题聚类模型、保存各类的关键词和权重
 
 #### 4.cluster
 
-featurize() 得到主题分布、pad() 填充 lda，通过 KMeans() 构建聚类模型
+predict() 词性过滤、输出文档的主题分布，将 lda 填充为定长序列
