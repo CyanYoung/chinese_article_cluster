@@ -33,7 +33,7 @@ models = {'lsi': lsi,
 
 
 def predict(text, name):
-    words = clean(text.strip())
+    words = clean(text)
     bow_doc = word2ind.doc2bow(words)
     tfidf_doc = tfidf[bow_doc]
     model = map_item(name, models)
